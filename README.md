@@ -12,7 +12,7 @@ catkin_make
 
 ## Run
 ```
-roslaunch spotmicro bringup.launch
+roslaunch spotmicro bringup.launch mode:=[rviz/sim/pi]
 ```
 
 ### Input topic:
