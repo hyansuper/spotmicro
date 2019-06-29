@@ -1,0 +1,35 @@
+<launch>
+  <!-- 
+
+  mode = sim/rviz/pi
+  sim:  gazebo simulation
+  rviz: only in rviz animation
+  pi:   bring up the real robot on raspberry pi
+
+  -->
+  <arg name="mode" default="rviz"/>
+  <arg name="update_rate" default="30"/>
+
+  <param name="use_sim_time" value="$(eval mode=='sim')"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find spotmicro)/urdf/spotmicro.xacro'" /> 
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+  respawn="false" output="screen">    
+    <param name="publish_frequency" value="$(arg update_rate)"/>
+  </node>
+
+  <!-- gazebo sim -->
+  <include if="$(eval mode=='sim')" file="$(find spotmicro)/launch/gazebo_sim.launch">
+    <arg name="update_rate" value="$(arg update_rate)"/>
+  </include>
+
+
+  <!-- rviz -->
+  <node if="$(eval mode=='rviz')" name="rvis" type="rviz" pkg="rviz" args=" -d $(find spotmicro)/rviz/bringup.rviz" required="true" />
+
+  <include if="$(eval mode!='sim')" file="$(find spotmicro)/launch/motion_control.launch">
+    <arg name="update_rate" value="$(arg update_rate)"/>
+  </include>
+  <include if="$(eval mode=='pi')" file="$(find spotmicro)/launch/pi.launch" />
+
+</launch>

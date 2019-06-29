@@ -1,0 +1,60 @@
+lf0:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 0
+  board: 0
+lf1:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 1
+  board: 0
+lf2:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 2
+  board: 0
+rf0:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 0
+  board: 0
+rf1:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 1
+  board: 0
+rf2:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 2
+  board: 0
+lr0:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 0
+  board: 0
+lr1:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 1
+  board: 0
+lr2:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 2
+  board: 0
+rr0:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 0
+  board: 0
+rr1:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 1
+  board: 0
+rr2:
+  pwm_start: 200
+  pwm_end: 301
+  channel: 2
+  board: 0

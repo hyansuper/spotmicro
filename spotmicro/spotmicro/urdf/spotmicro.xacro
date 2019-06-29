@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<robot name="spotmicro" xmlns:xacro="http://ros.org/wiki/xacro">
+<xacro:property name="radius" value="0.01" />
+<xacro:property name="offset_y" value="0.04" />
+<xacro:property name="offset_x" value="0.09" />
+<xacro:property name="offset_z" value="0.01" />
+<xacro:property name="a" value="0.01" />
+<xacro:property name="b" value="0.055" />
+<xacro:property name="c" value="0.11" />
+<xacro:property name="d" value="0.01" />
+<xacro:property name="e" value="0.115" />
+
+<xacro:include filename="$(find spotmicro)/urdf/common.xacro" />
+
+<material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1.0 1.0 0.0 1.0"/>
+  </material>
+
+<xacro:macro name="leg" params="name l f">
+	<joint name="${name}0" type="revolute">
+        <parent link="base_link"/>
+        <child link="${name}a"/>
+        <axis xyz="1 0 0"/>
+        <origin xyz="${offset_x*f} ${offset_y*l} ${offset_z}" rpy="0 0 0"/>
+        <limit lower="${-pi/4}" upper="${pi/4}" effort="1000.0" velocity="1.5"/>
+    </joint>
+    <link name="${name}a">
+    	<visual>
+    		<geometry>
+                <box size="0.045 0.025 0.055" />    			
+    		</geometry>
+    		<origin xyz="0 0 ${-a}" rpy="0 0 0"/>
+            <material name="black"/>
+    	</visual>
+        <visual>
+            <geometry>
+                <cylinder radius="0.017" length="0.02"/>
+            </geometry>
+            <origin xyz="0 ${l*(0.025+0.02)/2} ${-a}" rpy="${pi/2} 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.045 0.075 0.025"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+        </collision>
+        <xacro:box_inertial x="0.24" y="0.11" z="0.065" mass="0.06"/>
+    </link>
+    <gazebo reference="${name}a">
+        <material>Gazebo/Black</material>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
+    </gazebo>
+    <joint name="${name}1" type="revolute">
+        <parent link="${name}a"/>
+        <child link="${name}b"/>
+        <axis xyz="1 0 0"/>
+        <origin xyz="0 ${l*b} ${-a}" rpy="${-pi/2} 0 ${pi/2}"/>
+        <limit lower="${-pi/4}" upper="${pi*3/4}" effort="1000.0" velocity="1.5"/>
+    </joint>
+    <link name="${name}b">
+    	<visual>
+    		<geometry>
+    			<box size="0.045 0.13 0.03"/>
+    		</geometry>
+    		<origin xyz="0 0.045 0" rpy="0 0 0"/>
+            <material name="yellow"/>
+    	</visual>
+        <visual>
+            <geometry>
+                <cylinder radius="0.017" length="0.055"/>
+            </geometry>
+            <origin xyz="0 ${c} ${-d}" rpy="0 ${pi/2} 0"/>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.045 0.13 0.03"/>
+            </geometry>
+            <origin xyz="0 0.045 0" rpy="0 0 0"/>
+        </collision>
+        <xacro:box_inertial_with_origin x="0.045" y="0.13" z="0.03" mass="0.07">
+            <origin xyz="0 0.045 0" rpy="0 0 0"/>
+        </xacro:box_inertial_with_origin>
+    </link>
+    <gazebo reference="${name}b">
+        <material>Gazebo/Yellow</material>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
+    </gazebo>
+    <joint name="${name}2" type="revolute">
+        <parent link="${name}b"/>
+        <child link="${name}c"/>
+        <axis xyz="1 0 0"/>
+        <origin xyz="0 ${c} ${-d}" rpy="${-pi} 0 0"/>
+        <limit lower="${pi/4}" upper="${pi}" effort="1000.0" velocity="1.5"/>
+    </joint>
+    <link name="${name}c">
+        <visual>
+            <geometry>
+                <box size="0.045 0.045 0.025"/>
+            </geometry>
+            <origin xyz="0 0.01 0" rpy="0 0 0"/>
+            <material name="black"/>
+        </visual>
+    	<visual>
+    		<geometry>
+    			<box size="0.02 0.115 0.02"/>
+    		</geometry>
+    		<origin xyz="0 0.055 0" rpy="0 0 0"/>
+            <material name="black"/>
+    	</visual>
+        <collision>
+            <geometry>
+                <box size="0.045 0.115 0.025"/>
+            </geometry>
+            <origin xyz="0 0.045 0" rpy="0 0 0"/>
+        </collision>
+        <xacro:box_inertial_with_origin x="0.045" y="0.045" z="0.025" mass="0.06">
+            <origin xyz="0 0.01 0" rpy="0 0 0"/>
+        </xacro:box_inertial_with_origin>
+    </link>
+    <gazebo reference="${name}c">
+        <material>Gazebo/Black</material>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
+    </gazebo>
+    <joint name="${name}3" type="fixed">
+        <parent link="${name}c"/>
+        <child link="${name}d"/>
+        <origin xyz="0 ${e} 0" rpy="0 0 0"/>
+    </joint>
+    <link name="${name}d">        
+        <visual>
+            <geometry>
+                <sphere radius="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="0.02"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <xacro:sphere_inertial radius="0.02" mass="0.01"/>
+    </link>
+    <gazebo reference="${name}d">
+        <material>Gazebo/Black</material>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
+    </gazebo>
+</xacro:macro>
+
+<link name="base_link">
+    <visual>
+        <geometry>
+            <box size="0.24 0.05 0.065"/>
+        </geometry>
+        <material name="yellow"/>
+    </visual>
+    <visual>
+        <geometry>
+            <box size="0.13 0.11 0.065"/>
+        </geometry>
+        <material name="yellow"/>
+    </visual>
+    <visual>
+        <geometry>
+            <box size="0.05 0.11 0.065"/>
+        </geometry>
+        <origin xyz="${0.13/2+0.07} 0 0" rpy="0 0 0"/>
+        <material name="yellow"/>
+    </visual>
+    <visual>
+        <geometry>
+            <box size="0.05 0.11 0.065"/>
+        </geometry>
+        <origin xyz="${-0.13/2-0.07} 0 0" rpy="0 0 0"/>
+    </visual>
+    <collision>
+        <geometry>
+            <box size="0.24 0.11 0.065"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <xacro:box_inertial x="0.24" y="0.11" z="0.065" mass="1.0"/>
+</link>
+<gazebo reference="base_link">
+        <material>Gazebo/Yellow</material>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+        <mu1>100</mu1>
+        <mu2>100</mu2>
+    </gazebo>
+
+<xacro:leg name="lf" l="1" f="1"/>
+<xacro:leg name="lr" l="1" f="-1"/>
+<xacro:leg name="rf" l="-1" f="1"/>
+<xacro:leg name="rr" l="-1" f="-1"/>
+
+
+<xacro:macro name="transmission_block" params="joint_name">
+      <transmission name="${joint_name}_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="${joint_name}">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="${joint_name}_motor">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+   </xacro:macro>
+
+ <!-- Transmissions for ROS Control -->
+
+   <xacro:transmission_block joint_name="lf0"/>
+   <xacro:transmission_block joint_name="lf1"/>
+   <xacro:transmission_block joint_name="lf2"/>
+   <xacro:transmission_block joint_name="rf0"/>
+   <xacro:transmission_block joint_name="rf1"/>
+   <xacro:transmission_block joint_name="rf2"/>
+   <xacro:transmission_block joint_name="lr0"/>
+   <xacro:transmission_block joint_name="lr1"/>
+   <xacro:transmission_block joint_name="lr2"/>   
+   <xacro:transmission_block joint_name="rr0"/>
+   <xacro:transmission_block joint_name="rr1"/>
+   <xacro:transmission_block joint_name="rr2"/>
+
+<!-- ros_control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <!--<robotNamespace>/spotmicro</robotNamespace>
+      <robotSimType>motion_control/GaitHWSim</robotSimType>-->
+    </plugin>
+  </gazebo>
+
+</robot>

@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find spotmicro)/launch/machine.launch"/>
+	  <node machine="pi" pkg="servo_driver" name="servo_driver" type="servo_driver">
+	    <param name="num_boards" value="2"/>
+	    <param name="freq" value="60"/>
+	  </node>
+</launch>

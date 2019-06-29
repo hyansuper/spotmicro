@@ -1,0 +1,14 @@
+<!--
+	Tutorials on setting up ROS on multiple machines:
+	http://wiki.ros.org/roslaunch/XML/machine
+	http://wiki.ros.org/ROS/Tutorials/MultipleMachines
+
+	"Server ... not found in known_hosts"? check out:
+	http://answers.ros.org/question/244060/roslaunch-ssh-known_host-errors-cannot-launch-remote-nodes/
+-->
+<launch>
+  <arg name="pi_user" default="ubuntu"/>
+  <arg name="pi_address" default="r3bp.local"/>
+  <machine name="pi" address="$(arg pi_address)" user="$(arg pi_user)" password="U"
+  env-loader="/home/$(arg pi_user)/spotmicro_ws/src/pi_ros_remote.sh"></machine>
+</launch>

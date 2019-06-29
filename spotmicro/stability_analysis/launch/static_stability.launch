@@ -1,0 +1,7 @@
+<launch>
+  <node name="static_stability" pkg="stability_analysis" type="static_stability">
+    <param name="rate" value="30"/>
+    <param name="marker_scale" value="0.01"/>
+    <param name="support_foot_height_max" value="0.005"/>
+  </node>
+</launch>
