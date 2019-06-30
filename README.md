@@ -15,7 +15,7 @@ catkin_make
 roslaunch spotmicro bringup.launch mode:=[rviz/sim/pi]
 ```
 to launch it in RViz animation, gazebo simulation or bring up the real robot.<br/>
-To bring up the real robot, you may need to customize the `spotmicro/spotmicro/launch/machine.launch` file
+To bring up the real robot, you may need to customize `spotmicro/pi_ros_remote.sh` and `spotmicro/spotmicro/launch/machine.launch` files
 
 ### Input topic:
 * `/cmd_vel`: control angular and linear velocity just like the turtlesim program.
@@ -35,8 +35,7 @@ rosrun rqt_reconfigure rqt_reconfigure
 * `/servo_pwm`: the Int32MultiArray msg has a data field, specifying the board, channel and PWM signal for each servo. you can subcribe to this topic and send PWM signal to each servo using ESP32 or Raspberry Pi as controller. The default update rate is 30 hz.<br/>
 The following is the **pseudo code** for the controller:
 ```
-count = msg.data.size()/3
-for(i=0; i<count; i+=3):
+for(i=0; i<msg.data.size(); i+=3):
 	board = msg.data[i]
 	channel = msg.data[i+1]
 	pwm_value = msg.data[i+2]
