@@ -219,3 +219,4 @@ add_library(motion_hw
 )
 target_link_libraries(motion_hw ${catkin_LIBRARIES})
 
+add_dependencies(motion_controller ${PROJECT_NAME}_gencfg)
