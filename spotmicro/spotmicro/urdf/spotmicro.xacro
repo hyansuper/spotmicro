@@ -53,7 +53,7 @@
     <gazebo reference="${name}a">
         <material>Gazebo/Black</material>
         <kp>1000000.0</kp>
-        <kd>1000.0</kd>
+        <kd>100.0</kd>
         <mu1>100</mu1>
         <mu2>100</mu2>
     </gazebo>
@@ -92,7 +92,7 @@
     <gazebo reference="${name}b">
         <material>Gazebo/Yellow</material>
         <kp>1000000.0</kp>
-        <kd>1000.0</kd>
+        <kd>100.0</kd>
         <mu1>100</mu1>
         <mu2>100</mu2>
     </gazebo>
@@ -131,7 +131,7 @@
     <gazebo reference="${name}c">
         <material>Gazebo/Black</material>
         <kp>1000000.0</kp>
-        <kd>1000.0</kd>
+        <kd>100.0</kd>
         <mu1>100</mu1>
         <mu2>100</mu2>
     </gazebo>
@@ -159,8 +159,8 @@
     <gazebo reference="${name}d">
         <material>Gazebo/Black</material>
         <kp>1000000.0</kp>
-        <kd>1000.0</kd>
-        <mu1>100</mu1>
+        <kd>1.0</kd>
+        <mu1>200</mu1>
         <mu2>100</mu2>
     </gazebo>
 </xacro:macro>
@@ -197,12 +197,14 @@
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
-    <xacro:box_inertial x="0.24" y="0.11" z="0.065" mass="1.0"/>
+    <xacro:box_inertial_with_origin x="0.24" y="0.11" z="0.065" mass="0.6">
+        <origin xyz="0.05 0 0" rpy="0 0 0"/>
+    </xacro:box_inertial_with_origin>
 </link>
 <gazebo reference="base_link">
         <material>Gazebo/Yellow</material>
         <kp>1000000.0</kp>
-        <kd>1000.0</kd>
+        <kd>100.0</kd>
         <mu1>100</mu1>
         <mu2>100</mu2>
     </gazebo>

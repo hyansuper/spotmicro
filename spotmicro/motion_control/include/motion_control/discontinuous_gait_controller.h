@@ -1,21 +1,19 @@
-#include <pluginlib/class_list_macros.hpp>
-#include "motion_control/gait_controller.h"
+#ifndef __SM_DISCONTINUOUS_GAIT_CONTROLLER__
+#define __SM_DISCONTINUOUS_GAIT_CONTROLLER__
 #include "motion_control/gait_datatype.h"
 #include <urdf/model.h>
 #include <math.h>
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
-#include "motion_control/WalkConfig.h"
+#include "motion_control/DiscontinuousGaitConfig.h"
 #include <dynamic_reconfigure/server.h>
 namespace motion_control {
-
-class WalkController: public GaitController {
+class DiscontinuousGaitController: public GaitController {
 public:
-	WalkController():GaitController(), server(), cmd_vel_timeout(3.0), state(STAND), new_cfg(true){
-		dynamic_reconfigure::Server<gait::WalkConfig>::CallbackType f;
-		f = boost::bind(&WalkController::dyn_cb, this, _1, _2);
+	DiscontinuousGaitController():GaitController(), server(), cmd_vel_timeout(3.0), state(STAND), new_cfg(true){
+		dynamic_reconfigure::Server<DiscontinuousGaitConfig>::CallbackType f;
+		f = boost::bind(&DiscontinuousGaitController::dyn_cb, this, _1, _2);
 		server.setCallback(f);
 	}
-
 	bool init(hardware_interface::RobotHW* robot_hw, ros::NodeHandle &n) {
 		GaitController::init(robot_hw, n);
 		urdf::Model* model = new urdf::Model();
@@ -46,7 +44,7 @@ public:
 				com_dir += *(legseq[i].foot);
 			}			
 		}
-		com_dir = com_dir/3 - com_ori;
+		com_dir = (com_dir/3 - com_ori)/2;
 
 	    return true;
 	}
@@ -65,13 +63,9 @@ public:
 				active_legseq->foot->setZ(0);
 			}
 
-			if(elapse <= tc_0125) {
-				com = com_ori + com_dir * sin(elapse.toSec()/tc_025_PI);
-			} else {
-				// elapse = tc/8 ~ tc/4
-				com = com_ori2 - com_dir2 * cos((elapse-tc_0125).toSec()/tc_025_PI);
+			if(elapse > tt) {
+				com = com_ori - com_dir * cos((elapse-tt).toSec()*ts_PI);
 			}
-
 			tf2::Vector3 com_to_base = base_footprint.inverse()(com);
 			base_link.getOrigin().setX(com_to_base.getX());
 			base_link.getOrigin().setY(com_to_base.getY());
@@ -91,9 +85,10 @@ public:
 				legseq[3].foot_traj.offset_from_shoulder_proj.setValue(-config.stand_offset_x, config.stand_offset_y, 0);
 				legseq[2].foot_traj.offset_from_shoulder_proj.setValue(config.stand_offset_x, -config.stand_offset_y, 0);
 				legseq[1].foot_traj.offset_from_shoulder_proj.setValue(-config.stand_offset_x, -config.stand_offset_y, 0);
-				tc_0125 = tc*0.125;
+				// tc_0125 = tc*0.125;
 				tc_025 = tc*0.25;
-				tc_025_PI = tc_025.toSec()/M_PI;
+				// tc_025_PI = tc_025.toSec()/M_PI;
+				ts_PI = M_PI/(tc_025-tt).toSec();
 				new_cfg = false;
 			}
 
@@ -113,17 +108,21 @@ public:
 			vel_d.getOrigin() = vel*sec;
 			vel_d.getBasis().setRPY(0, 0, vel_r*sec);
 			
-			com_dir = com_dir2;
-			com_ori = com_ori2;
-			com_dir2 = active_legseq->foot_traj.transfer_ori + active_legseq->foot_traj.transfer_dir;
+			// com_dir = com_dir2;
+			// com_ori = com_ori2;
+			// com_dir2 = active_legseq->foot_traj.transfer_ori + active_legseq->foot_traj.transfer_dir;
+			com_dir = active_legseq->foot_traj.transfer_ori + active_legseq->foot_traj.transfer_dir;
 			for(int i=0; i<4; i++) {
 				if(&legseq[i]!=active_legseq && &legseq[i]!=active_legseq->next) {
-					com_dir2 += *(legseq[i].foot);
+					com_dir += *(legseq[i].foot);
 				}			
 			}
-			tf2::Vector3 com_end = com_dir + com_ori;
-			com_ori2 = (com_dir2/3 + com_end)/2;
-			com_dir2 = (com_dir2/3 - com_end)/2;
+			com_dir /= 3;
+			com_ori = (com_dir + com)/2;
+			com_dir = (com_dir - com)/2;
+			// tf2::Vector3 com_end = com_dir + com_ori;
+			// com_ori2 = (com_dir2/3 + com_end)/2;
+			// com_dir2 = (com_dir2/3 - com_end)/2;
 			
 			state=WALK;
 			cycle_start=time;
@@ -143,17 +142,17 @@ protected:
 
 	// com: center of mass in odom frame,
 	// simplified to the center of base_link, disregarding the mass of legs
-	tf2::Vector3 com_dir, com_ori, com_ori2, com_dir2, com; 
+	tf2::Vector3 com_dir, com_ori,/* com_ori2, com_dir2, */com; 
 
-    ros::Duration tc, tt, ts, tc_025, tc_0125;
-    double tc_025_PI;
+    ros::Duration tc, tt, ts, tc_025;//, tc_0125;
+    double ts_PI;
 
-	gait::WalkConfig config;
+	DiscontinuousGaitConfig config;
     bool new_cfg;
     double step_height, duty_factor;
 	ros::Duration cmd_vel_timeout;
 
-	dynamic_reconfigure::Server<gait::WalkConfig> server;
+	dynamic_reconfigure::Server<DiscontinuousGaitConfig> server;
 	
 	void pose_callback(const geometry_msgs::Pose::ConstPtr& msg) {
 		tf2::Quaternion q;
@@ -169,11 +168,10 @@ protected:
 		vel_prev_time = ros::Time::now();
 	}
 
-	void dyn_cb(gait::WalkConfig &config, uint32_t level) {
+	void dyn_cb(DiscontinuousGaitConfig &config, uint32_t level) {
 		this->config = config;
 		new_cfg = true;
 	}
 };
 }
-
-PLUGINLIB_EXPORT_CLASS(motion_control::WalkController, controller_interface::ControllerBase);
+#endif

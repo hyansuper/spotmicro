@@ -9,4 +9,8 @@
       Walking gait.
     </description>
   </class>
+    <class name="motion_control/DiscontinuousGaitController" type="motion_control::DiscontinuousGaitController" base_class_type="controller_interface::ControllerBase">
+    <description>
+    </description>
+  </class>
 </library>

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(motion_control)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
- add_compile_options(-std=c++11)
+# add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -100,6 +100,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
  generate_dynamic_reconfigure_options(
   cfg/Walk.cfg
+  cfg/DiscontinuousGait.cfg
 
  )
 
@@ -209,7 +210,7 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_library(motion_controller
-  src/walk_controller.cpp 
+  src/gait_controllers.cpp 
   src/servo_pwm_controller.cpp)
 target_link_libraries(motion_controller ${catkin_LIBRARIES})
 

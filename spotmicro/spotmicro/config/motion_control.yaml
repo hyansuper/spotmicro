@@ -4,6 +4,7 @@ joint_hw:
   type: motion_control/JointHW
 motion_controller:
   type: motion_control/WalkController
+  #type: motion_control/DiscontinuousGaitController #WalkController
 joint_state_controller:
   type: joint_state_controller/JointStateController
 servo_pwm_controller:
