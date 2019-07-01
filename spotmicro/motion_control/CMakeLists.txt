@@ -20,7 +20,8 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   urdf
   dynamic_reconfigure
-
+  gazebo_dev
+  gazebo_ros_control
 )
 
 ## System dependencies are found with CMake's conventions
@@ -210,13 +211,18 @@ include_directories(
 # catkin_add_nosetests(test)
 
 add_library(motion_controller
-  src/gait_controllers.cpp 
-  src/servo_pwm_controller.cpp)
+  src/motion_controller.cpp
+)
 target_link_libraries(motion_controller ${catkin_LIBRARIES})
 
 add_library(motion_hw
-  src/joint_hw.cpp
+  src/motion_hw.cpp
 )
 target_link_libraries(motion_hw ${catkin_LIBRARIES})
+
+add_library(motion_hw_sim
+  src/motion_hw_sim.cpp
+)
+target_link_libraries(motion_hw_sim ${catkin_LIBRARIES})
 
 add_dependencies(motion_controller ${PROJECT_NAME}_gencfg)

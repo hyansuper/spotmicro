@@ -4,58 +4,28 @@
   <version>0.0.0</version>
   <description>The motion_control package</description>
   <maintainer email="hyansuper@foxmail.com">hyan</maintainer>
+  
   <license>GPL</license>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>pluginlib</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>rospy</build_depend>
-  <build_export_depend>pluginlib</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>rospy</build_export_depend>
-  <exec_depend>pluginlib</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>rospy</exec_depend>
-
-  <build_depend>std_msgs</build_depend>
-  <build_export_depend>std_msgs</build_export_depend>
-  <exec_depend>std_msgs</exec_depend>
-  
-  <build_depend>message_generation</build_depend>
-  <exec_depend>message_runtime</exec_depend>
-  <exec_depend>message_generation</exec_depend>
-
-  <build_depend>tf2</build_depend>
-  <build_export_depend>tf2</build_export_depend>
-  <exec_depend>tf2</exec_depend>
-
-  <build_depend>tf2_ros</build_depend>
-  <build_export_depend>tf2_ros</build_export_depend>
-  <exec_depend>tf2_ros</exec_depend>
-
-  <build_depend>urdf</build_depend>
-  <build_export_depend>urdf</build_export_depend>
-  <exec_depend>urdf</exec_depend>
-
-  <build_depend>dynamic_reconfigure</build_depend>
-  <build_export_depend>dynamic_reconfigure</build_export_depend>
-  <exec_depend>dynamic_reconfigure</exec_depend>
-
-  <build_depend>controller_manager</build_depend>
-  <build_export_depend>controller_manager</build_export_depend>
-  <exec_depend>controller_manager</exec_depend>
-
-  <build_depend>hardware_interface</build_depend>
-  <build_export_depend>hardware_interface</build_export_depend>
-  <exec_depend>hardware_interface</exec_depend>
-
-  <build_depend>controller_interface</build_depend>
-  <build_export_depend>controller_interface</build_export_depend>
-  <exec_depend>controller_interface</exec_depend>
-
+  <depend>pluginlib</depend>
+  <depend>roscpp</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>  
+  <depend>message_generation</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+  <depend>urdf</depend>
+  <depend>dynamic_reconfigure</depend>
+  <depend>controller_manager</depend>
+  <depend>hardware_interface</depend>
+  <depend>controller_interface</depend>
+  <depend>gazebo_dev</depend>
+  <depend>gazebo_ros_control</depend>
 
   <export>
     <controller_interface plugin="${prefix}/motion_controller_plugin.xml"/>
     <hardware_interface plugin="${prefix}/motion_hw_plugin.xml"/>
+    <gazebo_ros_control plugin="${prefix}/motion_hw_sim_plugin.xml"/>
   </export>
 </package>

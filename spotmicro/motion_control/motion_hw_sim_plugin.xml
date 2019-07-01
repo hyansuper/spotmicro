@@ -1,0 +1,8 @@
+<library path="lib/libmotion_hw_sim">
+  <class name="motion_control/GaitHWSim" type="motion_control::GaitHWSim" base_class_type="gazebo_ros_control::RobotHWSim">
+    <description>
+    </description>
+  </class>
+
+ 
+</library>

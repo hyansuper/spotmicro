@@ -1,5 +1,6 @@
+#ifndef __SM_SERVO_PWM_CONTROLLER__
+#define __SM_SERVO_PWM_CONTROLLER__
 #include <controller_interface/multi_interface_controller.h>
-#include <pluginlib/class_list_macros.hpp>
 #include <urdf/model.h>
 #include <joint_limits_interface/joint_limits_urdf.h>
 #include <joint_limits_interface/joint_limits.h>
@@ -166,5 +167,4 @@ protected:
 };
 }
 
-PLUGINLIB_EXPORT_CLASS(motion_control::ServoPWMController, controller_interface::ControllerBase);
-
+#endif

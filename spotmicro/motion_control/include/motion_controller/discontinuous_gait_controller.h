@@ -1,6 +1,7 @@
 #ifndef __SM_DISCONTINUOUS_GAIT_CONTROLLER__
 #define __SM_DISCONTINUOUS_GAIT_CONTROLLER__
-#include "motion_control/gait_datatype.h"
+#include "motion_controller/gait_datatype.h"
+#include "motion_controller/gait_controller.h"
 #include <urdf/model.h>
 #include <math.h>
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
@@ -36,7 +37,7 @@ public:
 		delete model;
 		active_legseq=&legseq[0];
 
-		com = base_link.getOrigin();
+		com = base_link->getOrigin();
 		com.setZ(0);
 		com_ori = com;
 		for(int i=0; i<4; i++) {
@@ -50,7 +51,7 @@ public:
 	}
 	void update(const ros::Time& time, const ros::Duration& period) {
 		if(state==WALK) {
-			base_footprint *= vel_d;
+			*base_footprint *= vel_d;
 			ros::Duration elapse = time-cycle_start;
 			if(elapse < tt) {
 				double phase = elapse.toSec()/tt.toSec()*M_PI;
@@ -66,11 +67,11 @@ public:
 			if(elapse > tt) {
 				com = com_ori - com_dir * cos((elapse-tt).toSec()*ts_PI);
 			}
-			tf2::Vector3 com_to_base = base_footprint.inverse()(com);
-			base_link.getOrigin().setX(com_to_base.getX());
-			base_link.getOrigin().setY(com_to_base.getY());
+			tf2::Vector3 com_to_base = base_footprint->inverse()(com);
+			base_link->getOrigin().setX(com_to_base.getX());
+			base_link->getOrigin().setY(com_to_base.getY());
 
-			pose_changed = true;
+			*pose_changed = true;
 		}
 		if(state==STAND && time-vel_prev_time<cmd_vel_timeout) {
 			if(new_cfg) {
@@ -99,7 +100,7 @@ public:
 			if(vel_r) {
 				base_pl.getOrigin() = vel.rotate(axis, vel_r*dur*0.5)*sin(dur*vel_r*0.5)/vel_r;
 			}
-			base_pl = base_footprint*base_pl;
+			base_pl = *(base_footprint)*base_pl;
 			tf2::Vector3 foot_pl = base_pl*(active_legseq->foot_traj.shoulder_proj + active_legseq->foot_traj.offset_from_shoulder_proj);
 			active_legseq->foot_traj.transfer_ori = (foot_pl + *(active_legseq->foot))*0.5;
 			active_legseq->foot_traj.transfer_dir = (foot_pl - *(active_legseq->foot))*0.5;
@@ -127,7 +128,7 @@ public:
 			state=WALK;
 			cycle_start=time;
 		}
-		GaitController::update(time, period);
+		
 	}
 protected:
 	LegSequence legseq[4];
@@ -157,9 +158,9 @@ protected:
 	void pose_callback(const geometry_msgs::Pose::ConstPtr& msg) {
 		tf2::Quaternion q;
 		tf2::convert(msg->orientation,q);
-		base_link.setRotation(q);
-		base_link.getOrigin().setZ(msg->position.z);
-		pose_changed = true;
+		base_link->setRotation(q);
+		base_link->getOrigin().setZ(msg->position.z);
+		*pose_changed = true;
 	}
 	void vel_callback(const geometry_msgs::Twist::ConstPtr& msg) {
 		tf2::convert(msg->linear,vel);

@@ -1,8 +1,9 @@
 <launch>
-  <remap from="motion_controller/cmd_vel" to="cmd_vel"/>
-  <remap from="motion_controller/cmd_pose" to="cmd_pose"/>
+  <remap from="gazebo/cmd_vel" to="cmd_vel"/>
+  <remap from="gazebo/cmd_pose" to="cmd_pose"/>
   <arg name="world_name" default="worlds/empty.world"/>
-  <arg name="update_rate" default="30"/>
+  <arg name="update_rate"/>
+  <arg name="gait"/>
 
   <!-- gazebo sim -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -10,11 +11,10 @@
     <arg name="use_sim_time" value="true"/>
   </include>
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model spotmicro -param robot_description -x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 0.0"/>
-
+  <rosparam file="$(find spotmicro)/config/motion_controllers.yaml" command="load"/>
   <param name="joint_state_controller/publish_rate" value="$(arg update_rate)" />
-  <rosparam file="$(find spotmicro)/config/motion_control_sim.yaml" command="load"/>
   <rosparam file="$(find spotmicro)/config/leg_joint_pid.yaml" command="load" ns="gazebo_ros_control/pid_gains"/>
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  
-    args="motion_controller joint_state_controller "/>
+    args="$(arg gait) joint_state_controller "/>
 </launch>

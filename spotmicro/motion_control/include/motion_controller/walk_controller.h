@@ -1,7 +1,7 @@
 #ifndef __SM_WALK_CONTROLLER__
 #define __SM_WALK_CONTROLLER__
-#include "motion_control/gait_controller.h"
-#include "motion_control/gait_datatype.h"
+#include "motion_controller/gait_controller.h"
+#include "motion_controller/gait_datatype.h"
 #include <urdf/model.h>
 #include <math.h>
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
@@ -12,7 +12,7 @@ namespace motion_control {
 class WalkController: public GaitController {
 public:
 	WalkController():GaitController(), server(), cmd_vel_timeout(3.0), state(STAND), new_cfg(true){
-		dynamic_reconfigure::Server<WalkConfig>::CallbackType f;
+		dynamic_reconfigure::Server<motion_control::WalkConfig>::CallbackType f;
 		f = boost::bind(&WalkController::dyn_cb, this, _1, _2);
 		server.setCallback(f);
 	}
@@ -39,7 +39,7 @@ public:
 		delete model;
 		active_legseq=&legseq[0];
 
-		com = base_link.getOrigin();
+		com = base_link->getOrigin();
 		com.setZ(0);
 		com_ori = com;
 		for(int i=0; i<4; i++) {
@@ -53,7 +53,7 @@ public:
 	}
 	void update(const ros::Time& time, const ros::Duration& period) {
 		if(state==WALK) {
-			base_footprint *= vel_d;
+			*base_footprint *= vel_d;
 			ros::Duration elapse = time-cycle_start;
 			if(elapse < tt) {
 				double phase = elapse.toSec()/tt.toSec()*M_PI;
@@ -67,17 +67,17 @@ public:
 			}
 
 			if(elapse <= tc_0125) {
-				com = com_ori + com_dir * sin(elapse.toSec()*tc_025_PI);
+				com = com_ori + com_dir * sin(elapse.toSec()/tc_025_PI);
 			} else {
 				// elapse = tc/8 ~ tc/4
-				com = com_ori2 - com_dir2 * cos((elapse-tc_0125).toSec()*tc_025_PI);
+				com = com_ori2 - com_dir2 * cos((elapse-tc_0125).toSec()/tc_025_PI);
 			}
 
-			tf2::Vector3 com_to_base = base_footprint.inverse()(com);
-			base_link.getOrigin().setX(com_to_base.getX());
-			base_link.getOrigin().setY(com_to_base.getY());
+			tf2::Vector3 com_to_base = base_footprint->inverse()(com);
+			base_link->getOrigin().setX(com_to_base.getX());
+			base_link->getOrigin().setY(com_to_base.getY());
 
-			pose_changed = true;
+			*pose_changed = true;
 		}
 		if(state==STAND && time-vel_prev_time<cmd_vel_timeout) {
 			if(new_cfg) {
@@ -94,7 +94,7 @@ public:
 				legseq[1].foot_traj.offset_from_shoulder_proj.setValue(-config.stand_offset_x, -config.stand_offset_y, 0);
 				tc_0125 = tc*0.125;
 				tc_025 = tc*0.25;
-				tc_025_PI = M_PI/tc_025.toSec();
+				tc_025_PI = tc_025.toSec()/M_PI;
 				new_cfg = false;
 			}
 
@@ -105,7 +105,7 @@ public:
 			if(vel_r) {
 				base_pl.getOrigin() = vel.rotate(axis, vel_r*dur*0.5)*sin(dur*vel_r*0.5)/vel_r;
 			}
-			base_pl = base_footprint*base_pl;
+			base_pl = *(base_footprint)*base_pl;
 			tf2::Vector3 foot_pl = base_pl*(active_legseq->foot_traj.shoulder_proj + active_legseq->foot_traj.offset_from_shoulder_proj);
 			active_legseq->foot_traj.transfer_ori = (foot_pl + *(active_legseq->foot))*0.5;
 			active_legseq->foot_traj.transfer_dir = (foot_pl - *(active_legseq->foot))*0.5;
@@ -129,7 +129,6 @@ public:
 			state=WALK;
 			cycle_start=time;
 		}
-		GaitController::update(time, period);
 	}
 protected:
 	LegSequence legseq[4];
@@ -149,19 +148,19 @@ protected:
     ros::Duration tc, tt, ts, tc_025, tc_0125;
     double tc_025_PI;
 
-	WalkConfig config;
+	motion_control::WalkConfig config;
     bool new_cfg;
     double step_height, duty_factor;
 	ros::Duration cmd_vel_timeout;
 
-	dynamic_reconfigure::Server<WalkConfig> server;
+	dynamic_reconfigure::Server<motion_control::WalkConfig> server;
 	
 	void pose_callback(const geometry_msgs::Pose::ConstPtr& msg) {
 		tf2::Quaternion q;
 		tf2::convert(msg->orientation,q);
-		base_link.setRotation(q);
-		base_link.getOrigin().setZ(msg->position.z);
-		pose_changed = true;
+		base_link->setRotation(q);
+		base_link->getOrigin().setZ(msg->position.z);
+		*pose_changed = true;
 	}
 	void vel_callback(const geometry_msgs::Twist::ConstPtr& msg) {
 		tf2::convert(msg->linear,vel);
@@ -170,10 +169,11 @@ protected:
 		vel_prev_time = ros::Time::now();
 	}
 
-	void dyn_cb(WalkConfig &config, uint32_t level) {
+	void dyn_cb(motion_control::WalkConfig &config, uint32_t level) {
 		this->config = config;
 		new_cfg = true;
 	}
 };
 }
+
 #endif

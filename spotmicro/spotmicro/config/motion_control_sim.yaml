@@ -1,4 +1,0 @@
-motion_controller:
-  type: motion_control/WalkController
-joint_state_controller:
-  type: joint_state_controller/JointStateController

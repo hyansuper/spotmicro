@@ -1,0 +1,4 @@
+robot_hardware:
+  - gait_hw
+gait_hw:
+  type: motion_control/GaitHW

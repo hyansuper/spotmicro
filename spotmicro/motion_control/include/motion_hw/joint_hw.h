@@ -20,7 +20,7 @@ public:
 
 	bool init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw_nh) {
 
-		if(!robot_hw_nh.getParam("joints", joint_name)) {
+		if(joint_name.size()==0 && !robot_hw_nh.getParam("joints", joint_name)) {
 			ROS_ERROR("No joints param found.");
 			return false;
 		}
@@ -56,11 +56,11 @@ public:
 	void read(const ros::Time& time, const ros::Duration& period) {
     // Read actuator state from hardware...
     // Propagate current actuator state to joints...
+		pos.assign(cmd.begin(), cmd.end());
 	}
 	void write(const ros::Time& time, const ros::Duration& period) {
 	    // enforce limits, check constraint and collision...
-	    jnt_lim_if.enforceLimits(period);
-        pos.assign(cmd.begin(), cmd.end());
+	    jnt_lim_if.enforceLimits(period);        
 	}
 protected:
 	hardware_interface::JointStateInterface jnt_state_if;

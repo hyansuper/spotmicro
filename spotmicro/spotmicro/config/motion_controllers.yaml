@@ -1,10 +1,7 @@
-robot_hardware:
-  - joint_hw
-joint_hw:
-  type: motion_control/JointHW
-motion_controller:
+walk:
   type: motion_control/WalkController
-  #type: motion_control/DiscontinuousGaitController #WalkController
+discontinuous:
+  type: motion_control/DiscontinuousGaitController
 joint_state_controller:
   type: joint_state_controller/JointStateController
 servo_pwm_controller:
