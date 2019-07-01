@@ -37,7 +37,8 @@ public:
 		delete model;
 		active_legseq=&legseq[0];
 
-		com = base_link->getOrigin();
+		com = (*base_footprint)(base_link->getOrigin());
+		ROS_ERROR("%f,%f,%f",com.getX(),com.getY(),com.getZ());
 		com.setZ(0);
 		com_ori = com;
 		for(int i=0; i<4; i++) {
