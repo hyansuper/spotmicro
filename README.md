@@ -3,7 +3,6 @@ Most computation runs on PC or laptop, and send command to the robot through wif
 
 ## Install
 ```
-mkdir -p catkin_ws/src
 cd catkin_ws/src
 git clone --branch v04 https://github.com/hyansuper/spotmicro.git
 cd ..
@@ -12,10 +11,12 @@ catkin_make
 
 ## Run
 ```
-roslaunch spotmicro bringup.launch mode:=[rviz/sim/pi]
+roslaunch spotmicro bringup.launch mode:=[rviz/sim/pi] gait:=[walk/discontinuous]
 ```
-to launch it in RViz animation, gazebo simulation or bring up the real robot.<br/>
+to launch it in RViz animation(the default), gazebo simulation or bring up the real robot.<br/>
 To bring up the real robot, you may need to customize `spotmicro/pi_ros_remote.sh` and `spotmicro/spotmicro/launch/machine.launch` files
+
+I implemented two gaits. The walk gait is more natrual, but discontinuous gait is more stable.
 
 ### Input topic:
 * `/cmd_vel`: control angular and linear velocity just like the turtlesim program.
