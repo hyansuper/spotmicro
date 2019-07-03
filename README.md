@@ -1,6 +1,9 @@
 # SpotMicro
 Most computation runs on PC or laptop, and send command to the robot through wifi.
 
+## dependency:
+I use ROS melodic and gazebo-9 on Ubuntu 18.04. I think it's compatible with ROS kinetic.
+
 ## Install
 ```
 cd catkin_ws/src
@@ -12,6 +15,8 @@ catkin_make
 ## Run
 ```
 roslaunch spotmicro bringup.launch mode:=[rviz/sim/pi] gait:=[walk/discontinuous]
+rostopic pub -r 3 /cmd_vel [tab][tab]
+... x: 0.01 ...
 ```
 to launch it in RViz animation(the default), gazebo simulation or bring up the real robot.<br/>
 To bring up the real robot, you may need to customize `spotmicro/pi_ros_remote.sh` and `spotmicro/spotmicro/launch/machine.launch` files

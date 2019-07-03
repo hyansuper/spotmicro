@@ -9,5 +9,6 @@ To implement a different gait. you can derive from GaitController. subscribe to 
 `lf` represent the coordinate position of **l**eft **f**ront foot, and `rr` represent **r**ight **r**are foot, etc.<br/>
 If anyone of the variables is changed, set `*pose_changed=true` to notify the controller_manager that a IK recalculation is required in order the change the joints' position.
 
-### Note
-When the robot is spawned into gazebo simulation, it's not at the origin, despite I have set the start position in the launch file. I dont know why. So you'll need to manually set the robot dog to initial position before you send `/cmd_pose` or `/cmd_vel` msg, by clicking in the left panel: Models -> spotmicro -> pose, and set z=0.2, and set all the others to 0.
+### Bugs
+* When the robot is spawned into gazebo simulation, it's not at the origin, despite I have set the start position in the launch file. I dont know why. So you'll need to manually set the robot dog to initial position before you send `/cmd_pose` or `/cmd_vel` msg, by clicking in the left panel: Models -> spotmicro -> pose, and set z=0.2, and set all the others to 0.
+* Dynamic reconfiguration dose not show.
