@@ -7,7 +7,7 @@ I use ROS melodic and gazebo-9 on Ubuntu 18.04. I think it's compatible with ROS
 ## Install
 ```
 cd catkin_ws/src
-git clone --branch v04 https://github.com/hyansuper/spotmicro.git
+git clone https://github.com/hyansuper/spotmicro.git
 cd ..
 catkin_make
 ```
