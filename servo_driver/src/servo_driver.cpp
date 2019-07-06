@@ -12,12 +12,6 @@ void relax_all_servos(){
 		pwm.set_pwm_interval_all(0,0);
 	}
 }
-void mySigintHandler(int sig)
-{
-	relax_all_servos();
-	pwm.close_i2c();
-    ros::shutdown();
-}
 
 void cb(const std_msgs::Int32MultiArray::ConstPtr& msg)
 {
@@ -26,6 +20,13 @@ void cb(const std_msgs::Int32MultiArray::ConstPtr& msg)
 		pwm.set_active_board(*d);
 		pwm.set_pwm_interval(*(d+1),0,*(d+2));
 	}
+}
+
+void mySigintHandler(int sig)
+{
+	relax_all_servos();
+	pwm.close_i2c();
+    ros::shutdown();
 }
 
 int main(int argc, char **argv)
@@ -51,6 +52,7 @@ int main(int argc, char **argv)
 	}
 	for(int i=0;i<num_boards;i++){
 		pwm.set_active_board(i);
+		pwm.init_board();
 		pwm.set_pwm_freq(freq);
 	}
 	ros::Subscriber sub = ros::NodeHandle().subscribe("servo_pwm", 10, cb);

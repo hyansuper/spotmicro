@@ -1,5 +1,0 @@
-ServoConfig config
----
-bool success
-string extra_info
-

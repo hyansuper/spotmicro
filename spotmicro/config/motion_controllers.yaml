@@ -1,9 +1,0 @@
-walk:
-  type: motion_control/WalkController
-discontinuous:
-  type: motion_control/DiscontinuousGaitController
-joint_state_controller:
-  type: joint_state_controller/JointStateController
-servo_pwm_controller:
-  type: motion_control/ServoPWMController
-  enable_servo: true

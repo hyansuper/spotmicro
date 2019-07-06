@@ -197,5 +197,5 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-#add_executable(servo_driver src/servo_driver.cpp)
-#target_link_libraries(servo_driver ${catkin_LIBRARIES})
+add_executable(servo_driver src/servo_driver.cpp)
+target_link_libraries(servo_driver ${catkin_LIBRARIES})
