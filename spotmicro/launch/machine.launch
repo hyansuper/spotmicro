@@ -8,7 +8,7 @@
 -->
 <launch>
   <arg name="pi_user" default="ubuntu"/>
-  <arg name="pi_address" default="r3bp.local"/>
-  <machine name="pi" address="$(arg pi_address)" user="$(arg pi_user)" password="U"
+  <arg name="pi_address" default="spotmicro.local"/>
+  <machine name="pi" address="$(arg pi_address)" user="$(arg pi_user)" password="ubuntu"
   env-loader="/home/$(arg pi_user)/catkin_ws/src/spotmicro/pi_ros_remote.sh"></machine>
 </launch>

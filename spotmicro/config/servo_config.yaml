@@ -1,60 +1,12 @@
-lf0:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 0
-  board: 0
-lf1:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 1
-  board: 0
-lf2:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 2
-  board: 0
-rf0:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 0
-  board: 0
-rf1:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 1
-  board: 0
-rf2:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 2
-  board: 0
-lr0:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 0
-  board: 0
-lr1:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 1
-  board: 0
-lr2:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 2
-  board: 0
-rr0:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 0
-  board: 0
-rr1:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 1
-  board: 0
-rr2:
-  pwm_start: 200
-  pwm_end: 301
-  channel: 2
-  board: 0
+lf0: {board: 0, channel: 3, pwm_end: 200, pwm_start: 440}
+lf1: {board: 0, channel: 2, pwm_end: 600, pwm_start: 130}
+lf2: {board: 0, channel: 0, pwm_end: 510, pwm_start: 180}
+lr0: {board: 1, channel: 12, pwm_end: 525, pwm_start: 290}
+lr1: {board: 1, channel: 13, pwm_end: 570, pwm_start: 130}
+lr2: {board: 1, channel: 15, pwm_end: 515, pwm_start: 160}
+rf0: {board: 0, channel: 12, pwm_end: 525, pwm_start: 290}
+rf1: {board: 0, channel: 13, pwm_end: 190, pwm_start: 620}
+rf2: {board: 0, channel: 15, pwm_end: 125, pwm_start: 500}
+rr0: {board: 1, channel: 0, pwm_end: 550, pwm_start: 330}
+rr1: {board: 1, channel: 1, pwm_end: 160, pwm_start: 610}
+rr2: {board: 1, channel: 2, pwm_end: 115, pwm_start: 460}

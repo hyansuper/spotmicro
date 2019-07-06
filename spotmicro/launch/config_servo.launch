@@ -17,14 +17,13 @@
   <param name="joint_state_controller/publish_rate" value="$(arg update_rate)" />
 
   <rosparam file="$(find spotmicro)/config/servo_config.yaml" command="load" ns="servo_pwm_controller/servo_config"/>
-  <rosparam file="$(find spotmicro)/config/leg_joint_limits.yaml" command="load" ns="joint_limits"/>
-  <node name="hw_manager" pkg="hardware_manager" type="combined_hw_manager" output="screen" >	  
-    <remap from="servo_pwm_controller/servo_pwm" to="/servo_pwm" />
+  <node name="hw_manager" pkg="hardware_manager" type="combined_hw_manager" output="screen" >   
+    <remap from="servo_pwm_controller/servo_pwm" to="servo_pwm" />
   </node>
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  
     args="joint_position_controller joint_state_controller servo_pwm_controller"/>
 
-  <node name="config_servo_gui" type="config_servo_gui.py" pkg="motion_control"/>
+  <node name="config_servo_gui" type="config_servo_gui.py" pkg="motion_control" required="true"/>
 
   <include file="$(find spotmicro)/launch/pi.launch"/>
 

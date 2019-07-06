@@ -4,9 +4,21 @@ import ttk, rospy
 from motion_control.srv import EnableServo, ConfigServo
 from motion_control.msg import ServoConfig
 from std_msgs.msg import Float64MultiArray
+import xml.sax
+class LimitsHandler( xml.sax.ContentHandler ):
+	def __init__(self):
+		self.limits = {}
+	def startElement(self, tag, attrs):	
+		if tag=='joint' and attrs.has_key('type') and attrs['type']=='revolute':
+			self.j = attrs['name']
+		elif tag=='limit':
+			self.limits.update({self.j: (attrs['lower'], attrs['upper'])})
+	def endElement(self, tag):
+		pass
+	def characters(self, content):
+		pass
 
 hardware_ns = "servo_pwm_controller/"
-limits_ns = "joint_limits/"
 config_ns = hardware_ns+"servo_config/"
 joints = rospy.get_param("joint_position_controller/joints")
 joint_positions = []
@@ -74,9 +86,9 @@ class Application(Frame):
 			Checkbutton(self, text=joint, variable=self.var_enabled, command=self.enable_servo).grid(row=0, column=0)
 			ttk.Separator(self, orient=VERTICAL).grid(row=0, column=1, rowspan=2, sticky="sn")
 			Label(self, text="min_pos").grid(row=0, column=2)
-			Entry(self, state='readonly', textvariable=StringVar(value=rospy.get_param(limits_ns+joint+"/min_position"))).grid(row=0, column=3)
+			Entry(self, state='readonly', textvariable=StringVar(value=lim[joint][0])).grid(row=0, column=3)
 			Label(self, text="max_pos").grid(row=0, column=4)
-			Entry(self, state='readonly', textvariable=StringVar(value=rospy.get_param(limits_ns+joint+"/max_position"))).grid(row=0, column=5)
+			Entry(self, state='readonly', textvariable=StringVar(value=lim[joint][1])).grid(row=0, column=5)
 
 			self.var_position = StringVar(value="0")
 			joint_positions.append(self.var_position)
@@ -111,6 +123,9 @@ class Application(Frame):
 			ttk.Separator(self, orient=HORIZONTAL).grid(row=2, columnspan=10, sticky="ew")
 
 rospy.init_node('config_servo_gui')
+lh = LimitsHandler()
+xml.sax.parseString(rospy.get_param('robot_description'), lh)
+lim = lh.limits
 pub = rospy.Publisher('joint_position_controller/command', Float64MultiArray, queue_size=1)
 root = Tk()
 root.title('configure servo')

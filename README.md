@@ -5,11 +5,23 @@ Most computation runs on PC or laptop, and send command to the robot through wif
 I use ROS melodic and gazebo-9 on Ubuntu 18.04. I think it's compatible with ROS kinetic.
 
 ## Install
+
+### On PC
 ```
 cd catkin_ws/src
 git clone https://github.com/hyansuper/spotmicro.git
 cd ..
 catkin_make
+```
+
+### On Raspberry Pi (optional, only if you have built the robot, otherwise you can just test the robot in simulation)
+```
+sudo apt-get install libi2c-dev -y
+cd catkin_ws/src
+git clone --branch rpi https://github.com/hyansuper/spotmicro.git
+cd ..
+catkin_make
+chmod +x src/spotmicro/pi_ros_remote.sh 
 ```
 
 ## Run
@@ -48,7 +60,3 @@ for(i=0; i<msg.data.size(); i+=3):
 	pwm.set_address(board)
 	pwm.set_pwm(channel, 0, pwm_value)
 ```
-The servo_driver pkg is meant to be run on a Raspberry Pi as a controller board on the real robot. To compile the pkg on Raspberry Pi, change `servo_driver/CMakeLists.txt.pi` to `servo_driver/CMakeLists.txt`.<br/>
-This pkg is not needed if you only want to try RViz animation or gazebo simulation.
-
-All the other pkg will run on PC.
