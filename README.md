@@ -14,7 +14,10 @@ cd ..
 catkin_make
 ```
 
-### On Raspberry Pi (optional, only if you have built the robot, otherwise you can just test the robot in simulation)
+### On Raspberry Pi with ROS installed
+This is optional, only if you have built the physical robot; otherwise you can just test the robot in simulation.
+
+Flash onto SD card the [Ubiquity Robotics image](https://downloads.ubiquityrobotics.com/pi.html)(my test is the 2019-02-19 version), and set up the system as instructed, then log into Raspberry pi
 ```
 sudo apt-get install libi2c-dev -y
 cd catkin_ws/src
@@ -31,7 +34,7 @@ rostopic pub -r 3 /cmd_vel [tab][tab]
 ... x: 0.01 ...
 ```
 to launch it in RViz animation(the default), gazebo simulation or bring up the real robot.<br/>
-To bring up the real robot, you may need to customize `spotmicro/pi_ros_remote.sh` and `spotmicro/spotmicro/launch/machine.launch` files
+To bring up the real robot, you may need to customize `spotmicro/pi_ros_remote.sh` file on Raspberry pi and `spotmicro/spotmicro/launch/machine.launch` file on your PC.
 
 I implemented two gaits. The walk gait is more natrual, but discontinuous gait is more stable.
 
@@ -44,7 +47,7 @@ You can run the following to control the robot with a Logitech F710 gamepad. The
 roslaunch spotmicro_teleop gamepad.launch
 ```
 
-Also, some parameters about the gait can be dynamically reconfigured
+Also, some parameters about the gait can be dynamically reconfigured (**bug**)
 ```
 rosrun rqt_reconfigure rqt_reconfigure
 ```
@@ -60,3 +63,4 @@ for(i=0; i<msg.data.size(); i+=3):
 	pwm.set_address(board)
 	pwm.set_pwm(channel, 0, pwm_value)
 ```
+The `servo_driver` node of the `servo_driver` pkg in the rpi branch is an implementation of the above controller.
