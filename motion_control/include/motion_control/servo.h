@@ -5,7 +5,7 @@
 namespace motion_control {
 struct Servo{
 
-	Servo(bool enabled): enabled(enabled) {}
+	Servo(bool en): enabled(en) {}
 	Servo(){}
 	double max_position;
 	double min_position;

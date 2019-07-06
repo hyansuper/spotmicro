@@ -31,7 +31,7 @@ class Application(Frame):
 	def __init__(self, master=None):
 		Frame.__init__(self, master)
 		self.pack()
-		self.createRefWidgets({'PI':3.14159265359, 'PI/2':1.57079632679, 'PI/4':0.78539816339, 'PI*3/4':2.35619449, 'PI/6':0.52359877559}).grid(row=0)
+		self.createRefWidgets({'PI':3.14159265359, 'PI/2':1.57079632679, 'PI/4':0.78539816339, 'PI*3/4':2.35619449019, 'PI/6':0.52359877559}).grid(row=0)
 		self.createServoWidgets().grid(row=1)
 		f = Frame(self)
 		f.grid(row=2)

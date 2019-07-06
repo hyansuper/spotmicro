@@ -34,5 +34,5 @@
     <arg name="gait" value="$(arg gait)"/>
   </include>
   <include if="$(eval mode=='pi')" file="$(find spotmicro)/launch/pi.launch" />
-
+  <node if="$(eval mode=='pi')" name="rvis" type="rviz" pkg="rviz" args=" -d $(find spotmicro)/rviz/bringup.rviz" required="true" />
 </launch>
