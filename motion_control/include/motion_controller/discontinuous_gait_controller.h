@@ -17,6 +17,8 @@ public:
 	}
 	bool init(hardware_interface::RobotHW* robot_hw, ros::NodeHandle &n) {
 		GaitController::init(robot_hw, n);
+		double x_off;
+		n.param("weight_shift", x_off, 0.0);
 		urdf::Model* model = new urdf::Model();
 	    if(!model->initParam("robot_description")) {
 	        ROS_ERROR("Could not find robot model for gait controller.");
@@ -46,7 +48,9 @@ public:
 				com_dir += *(legseq[i].foot);
 			}			
 		}
-		com_dir = (com_dir/3 - com_ori)/2;
+		com_dir = (com_dir/3 - com_ori)/2 + com_offset;
+		com_ori += com_offset;
+		com += com_offset;
 
 	    return true;
 	}
@@ -120,8 +124,8 @@ public:
 				}			
 			}
 			com_dir /= 3;
-			com_ori = (com_dir + com)/2;
-			com_dir = (com_dir - com)/2;
+			com_ori = (com_dir + com)/2 + com_offset;
+			com_dir = (com_dir - com)/2 + com_offset;
 			// tf2::Vector3 com_end = com_dir + com_ori;
 			// com_ori2 = (com_dir2/3 + com_end)/2;
 			// com_dir2 = (com_dir2/3 - com_end)/2;
@@ -145,6 +149,7 @@ protected:
 	// com: center of mass in odom frame,
 	// simplified to the center of base_link, disregarding the mass of legs
 	tf2::Vector3 com_dir, com_ori,/* com_ori2, com_dir2, */com; 
+	tf2::Vector3 com_offset;
 
     ros::Duration tc, tt, ts, tc_025;//, tc_0125;
     double ts_PI;

@@ -80,7 +80,7 @@ bool init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw_nh) {
     registerInterface(&bool_if);
 
     double init_height;
-    robot_hw_nh.param("init_body_height", init_height, 0.17);
+    robot_hw_nh.param("init_body_height", init_height, 0.15);
     base_link.frame_id_ = "base_footprint";
     base_link.setIdentity();
     base_link.getOrigin().setZ(init_height);

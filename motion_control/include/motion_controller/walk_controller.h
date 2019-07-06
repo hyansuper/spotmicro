@@ -11,7 +11,7 @@ namespace motion_control {
 
 class WalkController: public GaitController {
 public:
-	WalkController():GaitController(), server(), cmd_vel_timeout(3.0), state(STAND), new_cfg(true){
+	WalkController():GaitController(), server(), cmd_vel_timeout(3.0), state(STAND), new_cfg(true) {
 		dynamic_reconfigure::Server<motion_control::WalkConfig>::CallbackType f;
 		f = boost::bind(&WalkController::dyn_cb, this, _1, _2);
 		server.setCallback(f);
@@ -19,6 +19,9 @@ public:
 
 	bool init(hardware_interface::RobotHW* robot_hw, ros::NodeHandle &n) {
 		GaitController::init(robot_hw, n);
+		double x_off;
+		n.param("weight_shift", x_off, 0.0);
+		com_offset.setX(x_off);
 		urdf::Model* model = new urdf::Model();
 	    if(!model->initParam("robot_description")) {
 	        ROS_ERROR("Could not find robot model for gait controller.");
@@ -47,7 +50,9 @@ public:
 				com_dir += *(legseq[i].foot);
 			}			
 		}
-		com_dir = com_dir/3 - com_ori;
+		com_dir = com_dir/3 - com_ori + com_offset;
+		com_ori += com_offset;
+		com += com_offset;
 
 	    return true;
 	}
@@ -123,8 +128,8 @@ public:
 				}			
 			}
 			tf2::Vector3 com_end = com_dir + com_ori;
-			com_ori2 = (com_dir2/3 + com_end)/2;
-			com_dir2 = (com_dir2/3 - com_end)/2;
+			com_ori2 = (com_dir2/3 + com_end)/2 + com_offset;
+			com_dir2 = (com_dir2/3 - com_end)/2 + com_offset;
 			
 			state=WALK;
 			cycle_start=time;
@@ -143,7 +148,8 @@ protected:
 
 	// com: center of mass in odom frame,
 	// simplified to the center of base_link, disregarding the mass of legs
-	tf2::Vector3 com_dir, com_ori, com_ori2, com_dir2, com; 
+	tf2::Vector3 com_dir, com_ori, com_ori2, com_dir2, com;
+	tf2::Vector3 com_offset;
 
     ros::Duration tc, tt, ts, tc_025, tc_0125;
     double tc_025_PI;

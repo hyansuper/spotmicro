@@ -198,7 +198,7 @@
         <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
     <xacro:box_inertial_with_origin x="0.24" y="0.11" z="0.065" mass="0.6">
-        <origin xyz="0.05 0 0" rpy="0 0 0"/>
+        <origin xyz="0.0 0 0" rpy="0 0 0"/>
     </xacro:box_inertial_with_origin>
 </link>
 <gazebo reference="base_link">
