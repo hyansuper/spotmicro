@@ -1,9 +1,9 @@
 lf0: {board: 0, channel: 3, pwm_end: 165, pwm_start: 360}
-lf1: {board: 0, channel: 2, pwm_end: 500, pwm_start: 115}
+lf1: {board: 0, channel: 2, pwm_end: 495, pwm_start: 110}
 lf2: {board: 0, channel: 0, pwm_end: 425, pwm_start: 140}
-lr0: {board: 1, channel: 8, pwm_end: 450, pwm_start: 248}
+lr0: {board: 1, channel: 8, pwm_end: 445, pwm_start: 243}
 lr1: {board: 1, channel: 13, pwm_end: 485, pwm_start: 90}
-lr2: {board: 1, channel: 15, pwm_end: 435, pwm_start: 140}
+lr2: {board: 1, channel: 15, pwm_end: 495, pwm_start: 202}
 rf0: {board: 0, channel: 12, pwm_end: 235, pwm_start: 440}
 rf1: {board: 0, channel: 13, pwm_end: 149, pwm_start: 539}
 rf2: {board: 0, channel: 15, pwm_end: 110, pwm_start: 410}

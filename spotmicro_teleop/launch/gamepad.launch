@@ -15,7 +15,7 @@
       pose_z_min: 0.12
       pose_z_max: 0.19
       pose_r: 0.2
-      pose_p: 0.2
+      pose_p: 0.3
       pose_y: 0.3
     </rosparam>
   </node>

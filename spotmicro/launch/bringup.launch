@@ -9,7 +9,7 @@
   -->
   <arg name="mode" default="rviz"/>
   <arg name="gait" default="walk"/>
-  <arg name="update_rate" default="30"/>
+  <arg name="update_rate" default="50"/>
 
   <param name="use_sim_time" value="$(eval mode=='sim')"/>
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find spotmicro)/urdf/spotmicro.xacro'" /> 
