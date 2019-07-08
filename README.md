@@ -74,7 +74,7 @@ The `servo_driver` node of the `servo_driver` pkg in the rpi branch is an implem
 ## Building the robot
 See instructions on [Thingivers](https://www.thingiverse.com/thing:3445283) by KDY0523.
 I use 180 degree 996R servos. You need install the servos so that their rotation workspace is within the range as following:
-![servo rotation workspace](/image/servo_ratotion_workspace.jpg)
+![servo rotation workspace](/image/servo_rotation_workspace.jpg)
 
 ### Servo configuration
 `roslaunch spotmicro config_servo.launch`
