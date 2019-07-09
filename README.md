@@ -1,6 +1,6 @@
 # SpotMicro
 Most computation runs on PC or laptop, and send command to the robot through wifi. You can test it in gazebo simulation without building real robot.
-
+[Video of SpotMicro posing](https://www.bilibili.com/video/av58391221/)
 
 ## Dependency:
 * [ROS-kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)(for Ubuntu 16) or [ROS-melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)(for Ubuntu 18)
