@@ -1,5 +1,6 @@
 # SpotMicro
 Most computation runs on PC or laptop, and send command to the robot through wifi. You can test it in gazebo simulation without building real robot.
+
 [Video of SpotMicro posing](https://www.bilibili.com/video/av58391221/)
 
 ## Dependency:
