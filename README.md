@@ -82,7 +82,9 @@ In the config_servo_gui window, for each servo, `pwm_start` and `pwm_end` is map
 * set for each servo which servo controller board and which channel it's connected to.
 * check the checkbox to enable the lf0 servo(the first servo of the left font leg), adjust `pwm_start` and `pwm_end` field until you see fit. when you are done configuring one servo, you can test it by typing in the angle field(radian) and hit Enter(not the Enter on numpad) to see if the servo goes to the desired position.
 * then continue configuring all the other servos.
+
 **when you are done configuring servos, run the following to save your configuration before closing the config_servo_gui window!**
+
 `rosparam dump ~/catkin_ws/src/spotmicro/spotmicro/config/servo_config.yaml /servo_pwm_controller/servo_config`
 
 ## Some thoughts about the design
