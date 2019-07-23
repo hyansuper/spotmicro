@@ -54,12 +54,12 @@ public:
 		pos_cmd[2] = acos((e2f2-g2)/_2ef);
 		pos_cmd[1] = acos((f2_e2+g2)/(_2f*g)) - asin(x/g);
 
-		double p=pos_cmd[1]+pos_cmd[2]-M_PI/2;
+		double p=pos_cmd[1]+pos_cmd[2]-M_PI*.5;
 		double xx=0.08*cos(p)-x;
 		double zz=h-0.08*sin(p)+a;
 		double i2=pow(xx, 2) + pow(zz, 2);
 		double i=sqrt(i2);
-		pos_cmd[3] = atan2(xx,zz)+acos((i2+j2_k2)/(_2j*i))-M_PI*0.5;
+		pos_cmd[3] = atan2(xx,zz)+acos((i2+j2_k2)/(_2j*i))-M_PI*.5;
 		pos_cmd[4] = acos((j2k2-i2)/_2jk);
 	}
 

@@ -41,7 +41,7 @@ public:
 	    registerInterface(&bool_if);
 
 	    double init_height;
-	    model_nh.param("init_body_height", init_height, 0.17);
+	    model_nh.param("init_body_height", init_height, 0.08);
 	    base_link.frame_id_ = "base_footprint";
 	    base_link.setIdentity();
 	    base_link.getOrigin().setZ(init_height);

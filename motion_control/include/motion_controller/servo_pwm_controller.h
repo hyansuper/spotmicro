@@ -25,7 +25,10 @@ public:
 		}
 		ros::NodeHandle config_nh(n, "servo_config");
 		hardware_interface::JointStateInterface *jnt_state_if = robot_hw->get<hardware_interface::JointStateInterface>();
-		const std::vector<std::string>& jname = jnt_state_if->getNames();
+		const std::vector<std::string> jname = {"lf0", "lf1", "lf3",
+												"rf0", "rf1", "rf3",
+												"lr0", "lr1", "lr3",
+												"rr0", "rr1", "rr3",};
 		pwm_msg.data.resize(jname.size()*3);
 		pwm_msg.layout.dim.resize(2);
 		pwm_msg.layout.dim[0].stride=pwm_msg.data.size();

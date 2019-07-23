@@ -1,8 +1,6 @@
 # SpotMicro
 Most computation runs on PC or laptop, and send command to the robot through wifi. You can test it in gazebo simulation without building real robot.
 
-[Video of SpotMicro posing](https://www.bilibili.com/video/av58391221/)
-
 ## Dependency:
 * [ROS-kinetic](http://wiki.ros.org/kinetic/Installation/Ubuntu)(for Ubuntu 16) or [ROS-melodic](http://wiki.ros.org/melodic/Installation/Ubuntu)(for Ubuntu 18)
 * `sudo apt install gazebo7 libgazebo7-dev -y`(for Ubuntu 16) or `sudo apt install gazebo9 libgazebo9-dev -y`(for Ubuntu 18)
@@ -15,7 +13,7 @@ I use ROS-melodic and gazebo9 on Ubuntu 18.04. I think it's compatible with ROS-
 ```
 mkdir ~/catkin_ws/src -p
 cd ~/catkin_ws/src
-git clone https://github.com/hyansuper/spotmicro.git
+git clone -b puppy https://github.com/hyansuper/spotmicro.git
 cd ..
 catkin_make
 ```
@@ -88,9 +86,5 @@ In the config_servo_gui window, for each servo, `pwm_start` and `pwm_end` is map
 
 `rosparam dump ~/catkin_ws/src/spotmicro/spotmicro/config/servo_config.yaml /servo_pwm_controller/servo_config`
 
-## Some thoughts about the design
-* The walking gait looks good on simulation, but does not perform well on real robot. The main reason I think is the robot is not rigid enough. The shoulder(or pelvis) has the weakest point. (I don't mean that I am able to design/remix a better model than the original)
-* The 996R servos works but they may not be powerful or accurate enough. the maker of SpotMicro, KDY0523, has updated the design and use more powerful servos.
-
 ## Credit:
-Deok-yeon Kim creator of SpotMicro
+YANGGTT, creator of puppy-bot model: https://github.com/YANGGTT/servo-dogbot
