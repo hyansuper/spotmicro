@@ -11,4 +11,3 @@ If anyone of the variables is changed, set `*pose_changed=true` to notify the co
 
 ### Bugs
 * When the robot is spawned into gazebo simulation, it's not at the origin, despite I have set the start position in the launch file. I dont know why it happens. You'll need to manually set the robot dog to initial position before you send `/cmd_pose` or `/cmd_vel` msg, by clicking in the left panel: Models -> spotmicro -> pose, and set z=0.2, and set all the others to 0.
-* Dynamic reconfiguration dose not show.
