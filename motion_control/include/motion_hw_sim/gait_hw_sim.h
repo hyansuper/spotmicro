@@ -21,10 +21,11 @@ public:
 	    for(int i=0;i<4;i++) {
 	        vec_if.registerHandle(Vector3Handle(leg_name[i], &feet[i]));
 	        vec_cmd_if.registerHandle(Vector3Handle(leg_name[i]+"_cmd", &feet[i]));
-	        ik[i]=LegIK(leg_name[i], urdf_model, &base_link, &feet[i], &joint_position_command_[i*3]);
+	        ik[i]=LegIK(leg_name[i], urdf_model, &base_link, &feet[i], &joint_position_command_[i*5]);
 	        urdf::Pose j0 = urdf_model->getJoint(leg_name[i]+"0")->parent_to_joint_origin_transform;
 	        urdf::Pose j1 = urdf_model->getJoint(leg_name[i]+"1")->parent_to_joint_origin_transform;
-	        feet[i].setValue(j0.position.x, j0.position.y+j1.position.y, 0);
+	        urdf::Pose j2 = urdf_model->getJoint(leg_name[i]+"2")->parent_to_joint_origin_transform;
+	        feet[i].setValue(j0.position.x+j1.position.x, j0.position.y+j1.position.y+j2.position.x, 0);
 	    }
 
 	    tf_if.registerHandle(TransformHandle("base_link", &base_link));

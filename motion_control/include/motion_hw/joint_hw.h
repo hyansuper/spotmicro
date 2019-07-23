@@ -41,7 +41,7 @@ public:
 	        jnt_state_if.registerHandle(jointStateHandle);
 	        hardware_interface::JointHandle jointPositionHandle(jointStateHandle, &cmd[i]);
 	        jnt_cmd_if.registerHandle(jointPositionHandle);
-	        urdf::JointConstSharedPtr urdf_joint = model->getJoint(joint_name[i]);
+	        urdf::JointConstSharedPtr urdf_joint = model->getJoint(joint_name[i]);	        
 	        if(!joint_limits_interface::getJointLimits(urdf_joint, lim[i])) {
 	            ROS_ERROR("Could not find joint_limits");
 	            return false;

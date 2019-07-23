@@ -10,7 +10,7 @@
     <arg name="world_name" value="$(arg world_name)"/>
     <arg name="use_sim_time" value="true"/>
   </include>
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model spotmicro -param robot_description -x 0.0 -y 0.0 -z 0.2 -R 0.0 -P 0.0 -Y 0.0"/>
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model spotmicro -param robot_description -x 0.0 -y 0.0 -z 0.12 -R 0.0 -P 0.0 -Y 0.0"/>
   <rosparam file="$(find spotmicro)/config/motion_controllers.yaml" command="load"/>
   <param name="joint_state_controller/publish_rate" value="$(arg update_rate)" />
   <rosparam file="$(find spotmicro)/config/leg_joint_pid.yaml" command="load" ns="gazebo_ros_control/pid_gains"/>

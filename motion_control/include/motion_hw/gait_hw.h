@@ -47,7 +47,7 @@ void write(const ros::Time& time, const ros::Duration& period) {
 bool init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw_nh) {
     std::vector<std::string> leg_name={"lf","rf", "lr","rr"};
     for(int i=0;i<4;i++) 
-        for(int j=0;j<3;j++)
+        for(int j=0;j<5;j++)
             joint_name.push_back(leg_name[i]+std::to_string(j));
     if(!JointHW::init(root_nh, robot_hw_nh))
         return false;
@@ -60,10 +60,11 @@ bool init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw_nh) {
     for(int i=0;i<4;i++) {
         vec_if.registerHandle(Vector3Handle(leg_name[i], &feet[i]));
         vec_cmd_if.registerHandle(Vector3Handle(leg_name[i]+"_cmd", &feet[i]));
-        ik[i]=LegIK(leg_name[i], model, &base_link, &feet[i], &cmd[i*3]);
+        ik[i]=LegIK(leg_name[i], model, &base_link, &feet[i], &cmd[i*5]);
         urdf::Pose j0 = model->getJoint(leg_name[i]+"0")->parent_to_joint_origin_transform;
         urdf::Pose j1 = model->getJoint(leg_name[i]+"1")->parent_to_joint_origin_transform;
-        feet[i].setValue(j0.position.x, j0.position.y+j1.position.y, 0);
+        urdf::Pose j2 = model->getJoint(leg_name[i]+"2")->parent_to_joint_origin_transform;
+        feet[i].setValue(j0.position.x+j1.position.x, j0.position.y+j1.position.y+j2.position.x, 0);
     }
     delete model;
 
@@ -80,7 +81,7 @@ bool init(ros::NodeHandle& root_nh, ros::NodeHandle& robot_hw_nh) {
     registerInterface(&bool_if);
 
     double init_height;
-    robot_hw_nh.param("init_body_height", init_height, 0.15);
+    robot_hw_nh.param("init_body_height", init_height, 0.08);
     base_link.frame_id_ = "base_footprint";
     base_link.setIdentity();
     base_link.getOrigin().setZ(init_height);

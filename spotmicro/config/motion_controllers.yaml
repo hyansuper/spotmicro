@@ -1,9 +1,9 @@
 walk:
   type: motion_control/WalkController
-  weight_shift: 0.025
+  weight_shift: 0.0
 discontinuous:
   type: motion_control/DiscontinuousGaitController
-  weight_shift: 0.025
+  weight_shift: 0.0
 joint_state_controller:
   type: joint_state_controller/JointStateController
 servo_pwm_controller:
