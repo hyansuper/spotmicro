@@ -9,10 +9,10 @@
   -->
   <arg name="mode" default="rviz"/>
   <arg name="gait" default="walk"/>
-  <arg name="update_rate" default="50"/>
+  <arg name="update_rate" default="30"/>
 
   <param name="use_sim_time" value="$(eval mode=='sim')"/>
-  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find spotmicro)/urdf/spotmicro.xacro'" /> 
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find spotmicro)/urdf/spotmicro1.xacro'" /> 
 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
   respawn="false" output="screen">    

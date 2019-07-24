@@ -52,7 +52,7 @@ You can run the following to control the robot with a Logitech F710 gamepad. The
 roslaunch spotmicro_teleop gamepad.launch
 ```
 
-Also, some parameters about the gait can be dynamically reconfigured (**bug: rqt_reconfigure GUI does not show**)
+Also, some parameters about the gait can be dynamically reconfigured
 ```
 rosrun rqt_reconfigure rqt_reconfigure
 ```

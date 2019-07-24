@@ -16,5 +16,5 @@
   <rosparam file="$(find spotmicro)/config/leg_joint_pid.yaml" command="load" ns="gazebo_ros_control/pid_gains"/>
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  
-    args="$(arg gait) joint_state_controller "/>
+    args="joint_state_controller"/>
 </launch>

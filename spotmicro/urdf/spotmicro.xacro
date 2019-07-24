@@ -158,8 +158,7 @@
         <kd>1.0</kd>
         <mu1>200</mu1>
         <mu2>100</mu2>
-    </gazebo> -->
-
+    </gazebo>
     <joint name="${name}3" type="revolute">
         <parent link="${name}a"/>
         <child link="${name}e"/>
@@ -277,7 +276,7 @@
 <xacro:leg name="rr" l="-1" f="-1"/>
 
 
-<xacro:macro name="transmission_block" params="joint_name">
+    <xacro:macro name="transmission_block" params="joint_name">
       <transmission name="${joint_name}_tran">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="${joint_name}">
@@ -288,7 +287,7 @@
           <mechanicalReduction>1</mechanicalReduction>
         </actuator>
       </transmission>
-   </xacro:macro>
+    </xacro:macro>
 
  <!-- Transmissions for ROS Control -->
 
