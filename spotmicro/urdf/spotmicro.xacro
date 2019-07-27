@@ -316,7 +316,7 @@
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <!--<robotNamespace>/spotmicro</robotNamespace>-->
-      
+      <robotSimType>motion_control/GaitHWSim</robotSimType>
     </plugin>
   </gazebo>
 
